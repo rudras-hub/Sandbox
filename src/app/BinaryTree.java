@@ -14,5 +14,19 @@ public class BinaryTree{
         }
     }
 
-    
+    public Boolean FindValue(Node rootNode, int value){
+        if(rootNode == null){
+            return false;
+        }
+        if(value == rootNode.GetValue()){
+            return true;
+        }
+        if(value <= rootNode.GetValue()){
+            return FindValue(rootNode.GetLeftChild(), value);
+        }
+        else{
+            return FindValue(rootNode.GetRightChild(), value);
+        }     
+    }
+
 }
