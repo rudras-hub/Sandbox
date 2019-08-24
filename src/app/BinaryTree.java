@@ -1,10 +1,15 @@
 package app;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 
 public class BinaryTree {
 
-    private ArrayDeque<Integer> levelOrderQueue = new ArrayDeque<Integer>();
+    private ArrayList<Node> preOrderList = new ArrayList<Node>();
+
+    private ArrayList<Node> inOrderList = new ArrayList<Node>();
+
+    private ArrayList<Node> postOrderList = new ArrayList<Node>();
 
     /**
      * Adds a new node in a binary search tree.
@@ -13,14 +18,14 @@ public class BinaryTree {
      * @param value    Value of node to be added
      * @return The new node added.
      */
-    public Node AddNode(Node rootNode, int value) {
+    public Node addNode(Node rootNode, int value) {
         if (rootNode == null) {
             return new Node(value, null, null);
         }
-        if (value <= rootNode.GetValue()) {
-            return AddNode(rootNode.GetLeftChild(), value);
+        if (value <= rootNode.getValue()) {
+            return addNode(rootNode.getLeftChild(), value);
         } else {
-            return AddNode(rootNode.GetRightChild(), value);
+            return addNode(rootNode.getRightChild(), value);
         }
     }
 
@@ -31,17 +36,17 @@ public class BinaryTree {
      * @param value    Value to find
      * @return Flag indicating if the value exists.
      */
-    public Boolean FindValue(Node rootNode, int value) {
+    public Boolean findValue(Node rootNode, int value) {
         if (rootNode == null) {
             return false;
         }
-        if (value == rootNode.GetValue()) {
+        if (value == rootNode.getValue()) {
             return true;
         }
-        if (value <= rootNode.GetValue()) {
-            return FindValue(rootNode.GetLeftChild(), value);
+        if (value <= rootNode.getValue()) {
+            return findValue(rootNode.getLeftChild(), value);
         } else {
-            return FindValue(rootNode.GetRightChild(), value);
+            return findValue(rootNode.getRightChild(), value);
         }
     }
 
@@ -51,14 +56,14 @@ public class BinaryTree {
      * @param rootNode Root node of the tree
      * @return The minimum value of the tree.
      */
-    public int FindMin(Node rootNode) {
+    public int findMin(Node rootNode) {
         if (rootNode == null) {
             return Integer.MIN_VALUE;
         }
-        if (rootNode.GetLeftChild() == null) {
-            return rootNode.GetValue();
+        if (rootNode.getLeftChild() == null) {
+            return rootNode.getValue();
         }
-        return FindMin(rootNode.GetLeftChild());
+        return findMin(rootNode.getLeftChild());
     }
 
     /**
@@ -67,14 +72,14 @@ public class BinaryTree {
      * @param rootNode Root of the tree.
      * @return The maximum value of the tree.
      */
-    public int FindMax(Node rootNode) {
+    public int findMax(Node rootNode) {
         if (rootNode == null) {
             return Integer.MAX_VALUE;
         }
-        if (rootNode.GetRightChild() == null) {
-            return rootNode.GetValue();
+        if (rootNode.getRightChild() == null) {
+            return rootNode.getValue();
         }
-        return FindMax(rootNode);
+        return findMax(rootNode);
     }
 
     /**
@@ -83,23 +88,102 @@ public class BinaryTree {
      * @param rootNode Root of the tree.
      * @return Height of the tree.
      */
-    public int GetHeight(Node rootNode) {
+    public int getHeight(Node rootNode) {
         if (rootNode == null) {
             return -1;
         }
-        return Math.max(GetHeight(rootNode.GetLeftChild()), GetHeight(rootNode.GetRightChild())) + 1;
+        return Math.max(getHeight(rootNode.getLeftChild()), getHeight(rootNode.getRightChild())) + 1;
 
     }
 
     /**
-     * @todo Complete this
+     * Gets nodes of a binary tree in level order
+     * @param rootNode Root node of the tree.
+     * @return List of nodes in sorted level order. 
      */
-    private void AddElementsInLevelOrder(Node rootNode) {
-        if(rootNode != null){
-            this.levelOrderQueue.add(rootNode.GetValue());
+    public ArrayList<Node> getElementsInLevelOrder(Node rootNode) {
+        ArrayList<Node> sortedElements = new ArrayList<Node>();
+        ArrayDeque<Node> levelOrderQueue = new ArrayDeque<Node>();
+
+        levelOrderQueue.push(rootNode);
+
+        while(!levelOrderQueue.isEmpty()){
+            Node currentNode = levelOrderQueue.pop();
+            Node leftChild = currentNode.getLeftChild();
+            Node rightChild = currentNode.getRightChild();
+
+            if(leftChild != null){
+                levelOrderQueue.push(leftChild);
+            }
+
+            if(rightChild != null){
+                levelOrderQueue.push(rightChild);
+            }
+
+            sortedElements.add(currentNode);
         }
-        AddElementsInLevelOrder(rootNode.GetLeftChild());
-        AddElementsInLevelOrder(rootNode.GetRightChild());
+
+        return sortedElements;
+    }
+
+    /**
+     * Gets nodes of a tree in pre-order
+     * Root->Left->Right
+     * @param rootNode The root node of the tree.
+     * @return List of tree nodes in pre-order.
+     */
+    public ArrayList<Node>getPreOrderList(Node rootNode){
+        getElementsInPreOrder(rootNode);
+        return this.preOrderList;
+    }
+
+    /**
+     * Gets nodes of a tree in-order
+     * Left->Root->Right
+     * @param rootNode The root node of the tree.
+     * @return List of tree nodes in-order.
+     */
+    public ArrayList<Node>getInOrderList(Node rootNode){
+        getElementsInOrder(rootNode);
+        return this.inOrderList;
+    }
+
+    /**
+     * Gets nodes of a tree in post-order
+     * Left->Right->Root
+     * @param rootNode The root node of the tree.
+     * @return List of nodes in post-order.
+     */
+    public ArrayList<Node>getPostOrderList(Node rootNode){
+        getElementsInPostOrder(rootNode);
+        return postOrderList;
+    }
+
+    private void getElementsInPreOrder(Node rootNode){
+        if(rootNode == null){
+            return;
+        }
+        preOrderList.add(rootNode);
+        getElementsInPreOrder(rootNode.getLeftChild());
+        getElementsInPreOrder(rootNode.getRightChild());
+    }
+
+    private void getElementsInOrder(Node rootNode){
+        if(rootNode == null){
+            return;
+        }
+        getElementsInOrder(rootNode.getLeftChild());
+        inOrderList.add(rootNode);
+        getElementsInOrder(rootNode.getRightChild());
+    }
+
+    private void getElementsInPostOrder(Node rootNode){
+        if(rootNode == null){
+            return;
+        }
+        getElementsInPostOrder(rootNode.getLeftChild());
+        getElementsInPostOrder(rootNode.getRightChild());
+        postOrderList.add(rootNode);
     }
 
 }

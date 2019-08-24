@@ -13,15 +13,15 @@ public class Node {
         this.rightChild = rightChild;
     }
 
-    public int GetValue() {
+    public int getValue() {
         return this.value;
     }
 
-    public Node GetLeftChild() {
+    public Node getLeftChild() {
         return this.leftChild;
     }
 
-    public Node GetRightChild() {
+    public Node getRightChild() {
         return this.rightChild;
     }
 
