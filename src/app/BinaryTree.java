@@ -98,8 +98,9 @@ public class BinaryTree {
 
     /**
      * Gets nodes of a binary tree in level order
+     * 
      * @param rootNode Root node of the tree.
-     * @return List of nodes in sorted level order. 
+     * @return List of nodes in sorted level order.
      */
     public ArrayList<Node> getElementsInLevelOrder(Node rootNode) {
         ArrayList<Node> sortedElements = new ArrayList<Node>();
@@ -107,16 +108,16 @@ public class BinaryTree {
 
         levelOrderQueue.push(rootNode);
 
-        while(!levelOrderQueue.isEmpty()){
+        while (!levelOrderQueue.isEmpty()) {
             Node currentNode = levelOrderQueue.pop();
             Node leftChild = currentNode.getLeftChild();
             Node rightChild = currentNode.getRightChild();
 
-            if(leftChild != null){
+            if (leftChild != null) {
                 levelOrderQueue.push(leftChild);
             }
 
-            if(rightChild != null){
+            if (rightChild != null) {
                 levelOrderQueue.push(rightChild);
             }
 
@@ -127,40 +128,40 @@ public class BinaryTree {
     }
 
     /**
-     * Gets nodes of a tree in pre-order
-     * Root->Left->Right
+     * Gets nodes of a tree in pre-order Root->Left->Right
+     * 
      * @param rootNode The root node of the tree.
      * @return List of tree nodes in pre-order.
      */
-    public ArrayList<Node>getPreOrderList(Node rootNode){
+    public ArrayList<Node> getPreOrderList(Node rootNode) {
         getElementsInPreOrder(rootNode);
         return this.preOrderList;
     }
 
     /**
-     * Gets nodes of a tree in-order
-     * Left->Root->Right
+     * Gets nodes of a tree in-order Left->Root->Right
+     * 
      * @param rootNode The root node of the tree.
      * @return List of tree nodes in-order.
      */
-    public ArrayList<Node>getInOrderList(Node rootNode){
+    public ArrayList<Node> getInOrderList(Node rootNode) {
         getElementsInOrder(rootNode);
         return this.inOrderList;
     }
 
     /**
-     * Gets nodes of a tree in post-order
-     * Left->Right->Root
+     * Gets nodes of a tree in post-order Left->Right->Root
+     * 
      * @param rootNode The root node of the tree.
      * @return List of nodes in post-order.
      */
-    public ArrayList<Node>getPostOrderList(Node rootNode){
+    public ArrayList<Node> getPostOrderList(Node rootNode) {
         getElementsInPostOrder(rootNode);
         return postOrderList;
     }
 
-    private void getElementsInPreOrder(Node rootNode){
-        if(rootNode == null){
+    private void getElementsInPreOrder(Node rootNode) {
+        if (rootNode == null) {
             return;
         }
         preOrderList.add(rootNode);
@@ -168,8 +169,8 @@ public class BinaryTree {
         getElementsInPreOrder(rootNode.getRightChild());
     }
 
-    private void getElementsInOrder(Node rootNode){
-        if(rootNode == null){
+    private void getElementsInOrder(Node rootNode) {
+        if (rootNode == null) {
             return;
         }
         getElementsInOrder(rootNode.getLeftChild());
@@ -177,8 +178,8 @@ public class BinaryTree {
         getElementsInOrder(rootNode.getRightChild());
     }
 
-    private void getElementsInPostOrder(Node rootNode){
-        if(rootNode == null){
+    private void getElementsInPostOrder(Node rootNode) {
+        if (rootNode == null) {
             return;
         }
         getElementsInPostOrder(rootNode.getLeftChild());
